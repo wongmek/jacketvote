@@ -33,13 +33,7 @@
             background-color: #f5f3ff !important; 
             transform: translateY(-8px);
         }
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #f1f1f1; }
-        ::-webkit-scrollbar-thumb { background: #c7c7cc; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #a1a1aa; }
         
-        /* Hide all views initially except home */
         .view-section { display: none; }
         .view-section.active { display: flex; }
         
@@ -51,10 +45,6 @@
             height: 24px;
             animation: spin 1s linear infinite;
             display: inline-block;
-        }
-        .loader-dark {
-            border: 3px solid rgba(0,0,0,0.1);
-            border-top: 3px solid #1e293b;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
@@ -74,29 +64,28 @@
             <h1 class="text-3xl md:text-4xl font-semibold tracking-wide text-center">ระบบโหวตเสื้อ Hoodie<br/><span class="text-indigo-600 text-2xl">Smart Vote System</span></h1>
         </div>
         
-        <div class="w-full max-w-md glass-card rounded-3xl p-8 mb-8">
+        <div class="w-full max-w-md glass-card rounded-3xl p-8 mb-10">
             <div class="text-center mb-6">
                 <h2 class="text-xl font-medium text-slate-700 flex items-center justify-center gap-2">
                     <i data-lucide="clock" class="text-indigo-500 w-5 h-5"></i> นับถอยหลังปิดโหวต
                 </h2>
                 <p class="text-sm text-slate-500 mt-1">ปิดรับโหวต พุธที่ 4 มี.ค. เวลา 23.59 น.</p>
-                <!-- Timer -->
                 <div class="flex gap-4 justify-center my-6">
                     <div class="flex flex-col items-center">
-                        <div id="timer-days" class="w-16 h-16 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center text-2xl font-bold text-indigo-600">00</div>
-                        <span class="text-xs text-slate-500 mt-2 uppercase tracking-wider font-medium">วัน</span>
+                        <div id="timer-days" class="w-14 h-14 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center text-xl font-bold text-indigo-600">00</div>
+                        <span class="text-[10px] text-slate-500 mt-2 uppercase tracking-wider font-medium">วัน</span>
                     </div>
                     <div class="flex flex-col items-center">
-                        <div id="timer-hours" class="w-16 h-16 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center text-2xl font-bold text-indigo-600">00</div>
-                        <span class="text-xs text-slate-500 mt-2 uppercase tracking-wider font-medium">ชม.</span>
+                        <div id="timer-hours" class="w-14 h-14 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center text-xl font-bold text-indigo-600">00</div>
+                        <span class="text-[10px] text-slate-500 mt-2 uppercase tracking-wider font-medium">ชม.</span>
                     </div>
                     <div class="flex flex-col items-center">
-                        <div id="timer-minutes" class="w-16 h-16 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center text-2xl font-bold text-indigo-600">00</div>
-                        <span class="text-xs text-slate-500 mt-2 uppercase tracking-wider font-medium">นาที</span>
+                        <div id="timer-minutes" class="w-14 h-14 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center text-xl font-bold text-indigo-600">00</div>
+                        <span class="text-[10px] text-slate-500 mt-2 uppercase tracking-wider font-medium">นาที</span>
                     </div>
                     <div class="flex flex-col items-center">
-                        <div id="timer-seconds" class="w-16 h-16 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center text-2xl font-bold text-indigo-600">00</div>
-                        <span class="text-xs text-slate-500 mt-2 uppercase tracking-wider font-medium">วิ</span>
+                        <div id="timer-seconds" class="w-14 h-14 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center text-xl font-bold text-indigo-600">00</div>
+                        <span class="text-[10px] text-slate-500 mt-2 uppercase tracking-wider font-medium">วิ</span>
                     </div>
                 </div>
             </div>
@@ -111,29 +100,31 @@
                         <input
                             type="text"
                             id="student-id-input"
-                            class="block w-full pl-11 pr-4 py-4 border border-slate-200 rounded-2xl text-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-shadow outline-none bg-slate-50/50 focus:bg-white"
+                            class="block w-full pl-11 pr-4 py-4 border border-slate-200 rounded-2xl text-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none bg-slate-50/50 focus:bg-white"
                             placeholder="กรอกรหัสนักเรียน (เช่น 5711)"
                         />
                     </div>
                 </div>
-                
                 <p id="home-error" class="hidden text-red-500 text-sm text-center bg-red-50 py-2 rounded-lg"></p>
-                
-                <button
-                    type="submit"
-                    id="btn-login"
-                    class="w-full flex justify-center items-center py-4 px-4 border border-transparent rounded-2xl shadow-md text-lg font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all active:scale-95 disabled:opacity-70"
-                >
+                <button type="submit" id="btn-login" class="w-full flex justify-center items-center py-4 rounded-2xl shadow-md text-lg font-medium text-white bg-indigo-600 hover:bg-indigo-700 transition-all active:scale-95 disabled:opacity-70">
                     <span id="btn-login-text">ค้นหาข้อมูล</span>
                 </button>
             </form>
         </div>
 
-        <!-- Public Dashboard Mini -->
+        <!-- สถิติผู้เข้าร่วมโหวตเบื้องต้น (2 บรรทัด) -->
         <div class="w-full max-w-4xl text-center px-4">
-            <h3 class="text-slate-500 text-sm tracking-widest uppercase mb-4">สถิติผู้เข้าร่วมโหวตเบื้องต้น</h3>
-            <div id="public-stats-container" class="flex flex-wrap justify-center gap-3 md:gap-4">
-                <!-- Generated by JS -->
+            <h3 class="text-slate-500 text-xs tracking-[0.2em] uppercase mb-6 font-semibold">สถิติผู้เข้าร่วมโหวตเบื้องต้น</h3>
+            
+            <div class="flex flex-col gap-4 max-w-3xl mx-auto">
+                <!-- บรรทัดที่ 1: ม.1 - ม.3 -->
+                <div id="stats-row-1" class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <!-- JS renders here -->
+                </div>
+                <!-- บรรทัดที่ 2: ม.4 - ม.6 -->
+                <div id="stats-row-2" class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <!-- JS renders here -->
+                </div>
             </div>
         </div>
     </div>
@@ -166,7 +157,6 @@
                 <p class="text-slate-500 text-lg">คลิกที่รูปเสื้อด้านล่างเพื่อเลือก แล้วกดยืนยันผลโหวต</p>
             </div>
 
-            <!-- ปรับ Grid ให้แสดงผลรูปใหญ่ขึ้น (1 รูปต่อแถวในมือถือ, 2 รูปในแท็บเล็ต, 3 รูปในจอคอม) -->
             <div id="shirts-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10 mb-12">
                 <!-- Generated by JS -->
             </div>
@@ -174,12 +164,7 @@
             <p id="vote-error" class="hidden text-red-500 text-center mb-6 text-lg"></p>
 
             <div class="flex justify-center mt-8 border-t border-slate-100 pt-8">
-                <button
-                    id="btn-vote"
-                    onclick="handleVote()"
-                    disabled
-                    class="py-4 px-12 md:px-20 rounded-2xl shadow-xl text-xl font-medium text-white bg-indigo-600 hover:bg-indigo-700 transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center gap-3 w-full md:w-auto"
-                >
+                <button id="btn-vote" onclick="handleVote()" disabled class="py-4 px-12 md:px-20 rounded-2xl shadow-xl text-xl font-medium text-white bg-indigo-600 hover:bg-indigo-700 transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center gap-3 w-full md:w-auto">
                     <span id="btn-vote-text">ยืนยันผลโหวต</span>
                 </button>
             </div>
@@ -189,14 +174,10 @@
     <!-- ==================== VIEW: SUCCESS ==================== -->
     <div id="view-success" class="view-section items-center justify-center p-4 min-h-screen">
         <div class="glass-card rounded-3xl p-10 max-w-md w-full text-center">
-            <div class="flex justify-center mb-6">
-                <i data-lucide="check-circle" class="text-green-500 w-24 h-24"></i>
-            </div>
+            <div class="flex justify-center mb-6"><i data-lucide="check-circle" class="text-green-500 w-24 h-24"></i></div>
             <h2 class="text-3xl font-semibold text-slate-800 mb-3">บันทึกผลสำเร็จ!</h2>
             <p class="text-slate-600 text-lg mb-8">ขอบคุณที่ร่วมโหวตแบบเสื้อ Hoodie</p>
-            <button onclick="logout()" class="w-full py-4 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-medium text-lg transition shadow-sm">
-                กลับสู่หน้าหลัก
-            </button>
+            <button onclick="logout()" class="w-full py-4 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-medium text-lg transition shadow-sm">กลับสู่หน้าหลัก</button>
         </div>
     </div>
 
@@ -209,12 +190,7 @@
             </div>
             <form onsubmit="handleAdminLogin(event)">
                 <div class="mb-5">
-                    <input
-                        type="password"
-                        id="admin-password"
-                        class="w-full px-4 py-4 border border-slate-200 rounded-xl focus:ring-2 focus:ring-slate-800 outline-none text-center text-xl tracking-widest bg-slate-50/50"
-                        placeholder="Password"
-                    />
+                    <input type="password" id="admin-password" class="w-full px-4 py-4 border border-slate-200 rounded-xl focus:ring-2 focus:ring-slate-800 outline-none text-center text-xl tracking-widest bg-slate-50/50" placeholder="Password" />
                 </div>
                 <p id="admin-error" class="hidden text-red-500 text-sm text-center mb-4"></p>
                 <button type="submit" id="btn-admin-login" class="w-full py-4 bg-slate-800 text-white rounded-xl font-medium text-lg hover:bg-slate-900 transition flex justify-center items-center shadow-md">
@@ -237,43 +213,33 @@
                     <i data-lucide="log-out" class="w-5 h-5"></i> ออกจากระบบ
                 </button>
             </div>
-
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 mb-8" id="admin-stats-summary">
-                <!-- Generated by JS -->
-            </div>
-
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 mb-8" id="admin-stats-summary"></div>
             <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-100">
                 <h3 class="text-xl font-medium mb-8 text-slate-700 border-b pb-4">ผลคะแนนแยกตามแบบเสื้อ Hoodie</h3>
-                <div class="space-y-8" id="admin-shirts-summary">
-                    <!-- Generated by JS -->
-                </div>
+                <div class="space-y-8" id="admin-shirts-summary"></div>
             </div>
         </div>
     </div>
 
-    <!-- ==================== JAVASCRIPT LOGIC ==================== -->
     <script>
-        // --- การตั้งค่า ---
-        const GAS_URL = "https://script.google.com/macros/s/AKfycbz17H-98LTnFFKJ_pfObujOD-KlUp-B7M6Pvz4lIvpgH247s-6Jd8rIXmud7S5CWmTQ/exec"; // ใส่ URL ของ Apps Script ตรงนี้
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbz17H-98LTnFFKJ_pfObujOD-KlUp-B7M6Pvz4lIvpgH247s-6Jd8rIXmud7S5CWmTQ/exec"; 
 
-        // --- ข้อมูลจำลอง ---
+        // ข้อมูลจำลอง
         const MOCK_DB = {
             students: {
                 "5711": { id: "5711", title: "เด็กชาย", name: "คุณากร", surname: "คณาวัฒนไชย", level: "ชั้นมัธยมศึกษาปีที่ 1", voted: false },
-                "5712": { id: "5712", title: "เด็กชาย", name: "บุญญฤทธิ์", surname: "ก่อเกียรติพิทักษ์", level: "ชั้นมัธยมศึกษาปีที่ 2", voted: false },
-                "5713": { id: "5713", title: "เด็กชาย", name: "ภชิล", surname: "เขมฤกษ์อำพล", level: "ชั้นมัธยมศึกษาปีที่ 3", voted: true, votedFor: 2 },
                 "5716": { id: "5716", title: "นาย", name: "กฤตชญา", surname: "ฉัตรวงศวิวัฒน์", level: "ชั้นมัธยมศึกษาปีที่ 4", voted: false },
             },
             stats: {
                 levels: { 
-                    "ชั้นมัธยมศึกษาปีที่ 1": 1, 
-                    "ชั้นมัธยมศึกษาปีที่ 2": 0, 
-                    "ชั้นมัธยมศึกษาปีที่ 3": 0,
-                    "ชั้นมัธยมศึกษาปีที่ 4": 0,
-                    "ชั้นมัธยมศึกษาปีที่ 5": 0,
-                    "ชั้นมัธยมศึกษาปีที่ 6": 0
+                    "ชั้นมัธยมศึกษาปีที่ 1": 15, 
+                    "ชั้นมัธยมศึกษาปีที่ 2": 12, 
+                    "ชั้นมัธยมศึกษาปีที่ 3": 8,
+                    "ชั้นมัธยมศึกษาปีที่ 4": 20,
+                    "ชั้นมัธยมศึกษาปีที่ 5": 18,
+                    "ชั้นมัธยมศึกษาปีที่ 6": 25
                 },
-                shirts: { 1: 0, 2: 1, 3: 0, 4: 0, 5: 0 }
+                shirts: { 1: 10, 2: 25, 3: 15, 4: 30, 5: 18 }
             }
         };
 
@@ -285,44 +251,32 @@
             { id: 5, img: "https://img5.pic.in.th/file/secure-sv1/005d556fa13f4baae64.png", name: "แบบที่ 5" }
         ];
 
-        // --- State Variables ---
         let currentUser = null;
         let selectedShirtId = null;
         let stats = JSON.parse(JSON.stringify(MOCK_DB.stats));
 
-        // --- การตั้งเวลาปิดโหวต (วันพุธที่ 4 มีนาคม เวลา 23.59 น. ปี 2026) ---
-        // Format: YYYY-MM-DDTHH:mm:ss
         const deadline = new Date("2026-03-04T23:59:59");
 
         setInterval(() => {
             const now = new Date().getTime();
             const distance = deadline.getTime() - now;
-            
             if (distance > 0) {
                 document.getElementById('timer-days').innerText = String(Math.floor(distance / (1000 * 60 * 60 * 24))).padStart(2, '0');
                 document.getElementById('timer-hours').innerText = String(Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
                 document.getElementById('timer-minutes').innerText = String(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
                 document.getElementById('timer-seconds').innerText = String(Math.floor((distance % (1000 * 60)) / 1000)).padStart(2, '0');
-            } else {
-                // ถ้าหมดเวลาแล้วให้แสดง 00
-                document.getElementById('timer-days').innerText = "00";
-                document.getElementById('timer-hours').innerText = "00";
-                document.getElementById('timer-minutes').innerText = "00";
-                document.getElementById('timer-seconds').innerText = "00";
             }
         }, 1000);
 
-        // --- การทำงานหลักตอนโหลดเว็บ ---
         document.addEventListener("DOMContentLoaded", () => {
-            lucide.createIcons(); // โหลดไอคอน
-            renderPublicStats();  // แสดงสถิติหน้าแรก
+            lucide.createIcons();
+            renderPublicStats();
         });
 
-        // --- การเปลี่ยนหน้า ---
         function switchView(viewId) {
             document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
             document.getElementById(viewId).classList.add('active');
-            window.scrollTo(0, 0); // เลื่อนกลับขึ้นบนสุดเมื่อเปลี่ยนหน้า
+            window.scrollTo(0, 0);
             lucide.createIcons();
             hideError();
         }
@@ -335,93 +289,62 @@
             switchView('view-home');
         }
 
-        // --- จัดการแสดง Error ---
         function showError(msg, elId) {
             const el = document.getElementById(elId);
             el.innerText = msg;
             el.classList.remove('hidden');
         }
         function hideError() {
-            ['home-error', 'vote-error', 'admin-error'].forEach(id => {
-                document.getElementById(id).classList.add('hidden');
-            });
+            ['home-error', 'vote-error', 'admin-error'].forEach(id => document.getElementById(id).classList.add('hidden'));
         }
 
         function toggleLoading(btnId, textId, isLoading, text) {
             const btn = document.getElementById(btnId);
             const span = document.getElementById(textId);
             btn.disabled = isLoading;
-            if (isLoading) {
-                span.innerHTML = `<div class="loader ${btnId === 'btn-admin-login' ? 'loader-dark' : ''} mr-2"></div> กำลังประมวลผล...`;
-            } else {
-                span.innerText = text;
-            }
+            if (isLoading) span.innerHTML = `<div class="loader mr-2"></div> กำลังประมวลผล...`;
+            else span.innerText = text;
         }
 
-        // --- API Mock ---
         async function apiCall(action, payload = {}) {
-            await new Promise(r => setTimeout(r, 800)); // หน่วงเวลาจำลอง
-            
-            // เช็คว่าหมดเวลาโหวตหรือยัง (ฝั่ง Frontend เช็คเบื้องต้น)
-            if (action === 'vote' || action === 'verify') {
-                 if (new Date().getTime() > deadline.getTime()) {
-                     throw new Error("ระบบได้ปิดรับการโหวตแล้ว");
-                 }
-            }
-
+            await new Promise(r => setTimeout(r, 800));
             if (!GAS_URL) {
                 if (action === 'verify') {
                     const student = MOCK_DB.students[payload.id];
                     if (!student) throw new Error("ไม่พบรหัสนักเรียนนี้ในระบบ");
-                    if (student.voted) throw new Error("คุณได้ทำการโหวตไปแล้ว ไม่สามารถโหวตซ้ำได้");
+                    if (student.voted) throw new Error("คุณได้ทำการโหวตไปแล้ว");
                     return student;
                 }
                 if (action === 'vote') {
-                    const { id, shirtId, level } = payload;
-                    MOCK_DB.students[id].voted = true;
-                    MOCK_DB.students[id].votedFor = shirtId;
+                    const { shirtId, level } = payload;
                     stats.shirts[shirtId] += 1;
                     stats.levels[level] = (stats.levels[level] || 0) + 1;
                     renderPublicStats();
                     return { success: true };
                 }
                 if (action === 'getStats') return stats;
-            } else {
-                // เชื่อมต่อ Google Apps Script ของจริง
-                const urlParams = new URLSearchParams({ action, ...payload });
-                const response = await fetch(`${GAS_URL}?${urlParams.toString()}`);
-                const result = await response.json();
-                if(result.error) throw new Error(result.error);
-                return result.data;
             }
         }
 
-        // --- Login ---
         async function handleLogin(e) {
             e.preventDefault();
             hideError();
             const id = document.getElementById('student-id-input').value.trim();
             if (!id) return showError("กรุณากรอกรหัสนักเรียน", 'home-error');
-
             toggleLoading('btn-login', 'btn-login-text', true);
             try {
                 currentUser = await apiCall('verify', { id });
                 setupVotingView();
                 switchView('view-voting');
-            } catch (err) {
-                showError(err.message, 'home-error');
-            } finally {
-                toggleLoading('btn-login', 'btn-login-text', false, "ค้นหาข้อมูล");
-            }
+            } catch (err) { showError(err.message, 'home-error'); }
+            finally { toggleLoading('btn-login', 'btn-login-text', false, "ค้นหาข้อมูล"); }
         }
 
-        // --- Setup Voting View ---
         function setupVotingView() {
             document.getElementById('user-fullname').innerText = `${currentUser.title}${currentUser.name} ${currentUser.surname}`;
             document.getElementById('user-id').innerText = `(${currentUser.id})`;
             document.getElementById('user-level').innerText = currentUser.level;
             selectedShirtId = null;
-            document.getElementById('btn-vote').disabled = true;
             renderShirts();
         }
 
@@ -431,7 +354,6 @@
                 const isSelected = selectedShirtId === shirt.id;
                 return `
                     <div onclick="selectShirt(${shirt.id})" class="shirt-card group cursor-pointer rounded-3xl border-2 overflow-hidden bg-white ${isSelected ? 'shirt-selected' : 'border-slate-200'}">
-                        <!-- ปรับ h-64 ให้รูปสูงขึ้น และเด่นชัด -->
                         <div class="h-64 sm:h-72 lg:h-80 bg-slate-50 p-6 flex items-center justify-center relative overflow-hidden">
                             <img src="${shirt.img}" alt="${shirt.name}" class="w-full h-full object-contain drop-shadow-xl transition-transform duration-500 group-hover:scale-110" />
                             ${isSelected ? `<div class="absolute top-4 right-4 bg-indigo-600 text-white rounded-full p-1.5 shadow-lg scale-110 transition-transform"><i data-lucide="check-circle" class="w-6 h-6"></i></div>` : ''}
@@ -451,107 +373,83 @@
             renderShirts();
         }
 
-        // --- Submit Vote ---
         async function handleVote() {
-            if (!selectedShirtId) return showError("กรุณาเลือกแบบเสื้อที่ต้องการ", 'vote-error');
-            hideError();
+            if (!selectedShirtId) return;
             toggleLoading('btn-vote', 'btn-vote-text', true);
-            
             try {
                 await apiCall('vote', { id: currentUser.id, shirtId: selectedShirtId, level: currentUser.level });
                 switchView('view-success');
-            } catch (err) {
-                showError(err.message, 'vote-error');
-            } finally {
-                toggleLoading('btn-vote', 'btn-vote-text', false, "ยืนยันผลโหวต");
-            }
+            } catch (err) { showError(err.message, 'vote-error'); }
+            finally { toggleLoading('btn-vote', 'btn-vote-text', false, "ยืนยันผลโหวต"); }
         }
 
-        // --- Admin Logic ---
+        // --- Render Public Stats (แบ่ง 2 บรรทัด) ---
+        function renderPublicStats() {
+            const row1 = document.getElementById('stats-row-1');
+            const row2 = document.getElementById('stats-row-2');
+            
+            const m1_3 = ["ชั้นมัธยมศึกษาปีที่ 1", "ชั้นมัธยมศึกษาปีที่ 2", "ชั้นมัธยมศึกษาปีที่ 3"];
+            const m4_6 = ["ชั้นมัธยมศึกษาปีที่ 4", "ชั้นมัธยมศึกษาปีที่ 5", "ชั้นมัธยมศึกษาปีที่ 6"];
+
+            const getHtml = (level) => {
+                const count = stats.levels[level] || 0;
+                const shortLabel = level.replace("ชั้นมัธยมศึกษาปีที่ ", "ม.");
+                return `
+                    <div class="bg-white px-4 py-3 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between hover:border-indigo-200 transition-colors">
+                        <span class="text-slate-500 font-medium text-sm">${shortLabel}</span>
+                        <span class="text-indigo-600 font-bold text-lg">${count.toLocaleString()} <small class="text-[10px] text-slate-400 font-normal">คน</small></span>
+                    </div>
+                `;
+            };
+
+            row1.innerHTML = m1_3.map(getHtml).join('');
+            row2.innerHTML = m4_6.map(getHtml).join('');
+        }
+
         function handleAdminLogin(e) {
             e.preventDefault();
-            hideError();
             const pass = document.getElementById('admin-password').value;
-            toggleLoading('btn-admin-login', 'btn-admin-login-text', true);
-            
-            setTimeout(async () => {
-                if (pass === "1111100000") {
-                    try {
-                        stats = await apiCall('getStats');
-                        renderAdminDashboard();
-                        switchView('view-admin-dashboard');
-                    } catch (err) {
-                        showError("โหลดข้อมูลไม่สำเร็จ", 'admin-error');
-                    }
-                } else {
-                    showError("รหัสผ่านไม่ถูกต้อง", 'admin-error');
-                }
-                toggleLoading('btn-admin-login', 'btn-admin-login-text', false, "เข้าสู่ระบบ");
-            }, 500);
-        }
-
-        function renderPublicStats() {
-            const container = document.getElementById('public-stats-container');
-            container.innerHTML = Object.entries(stats.levels).map(([level, count]) => {
-                // ทำระดับชั้นให้สั้นลงเพื่อการแสดงผลสวยงาม เช่น ม.1
-                const shortLevel = level.replace("ชั้นมัธยมศึกษาปีที่ ", "ม.");
-                return `
-                <div class="bg-white px-5 py-2.5 rounded-full shadow-sm border border-slate-100 flex items-center justify-between gap-3 min-w-[120px]">
-                    <span class="text-slate-600 font-medium">${shortLevel}</span>
-                    <span class="bg-indigo-100 text-indigo-700 py-1 px-3 rounded-full text-sm font-bold">${count} คน</span>
-                </div>
-            `}).join('');
+            if (pass === "1111100000") {
+                renderAdminDashboard();
+                switchView('view-admin-dashboard');
+            } else showError("รหัสผ่านไม่ถูกต้อง", 'admin-error');
         }
 
         function renderAdminDashboard() {
             const totalVotes = Object.values(stats.shirts).reduce((a, b) => a + b, 0);
-            
-            // Top Cards (รวมนักเรียนทั้งหมด + ม.1-ม.6)
-            let summaryHTML = `
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center justify-center col-span-2 md:col-span-1 border-b-4 border-b-indigo-500">
-                    <span class="text-slate-500 mb-1 font-medium">ผู้โหวตทั้งหมด</span>
-                    <span class="text-4xl font-bold text-indigo-600">${totalVotes} <span class="text-lg text-slate-400 font-normal">คน</span></span>
-                </div>
-            `;
+            let summaryHTML = `<div class="bg-white p-6 rounded-2xl shadow-sm border-b-4 border-b-indigo-500 flex flex-col items-center justify-center col-span-2 md:col-span-1">
+                <span class="text-slate-500 text-sm mb-1">รวมผู้โหวตทั้งหมด</span>
+                <span class="text-4xl font-bold text-indigo-600">${totalVotes}</span>
+            </div>`;
             Object.entries(stats.levels).forEach(([level, count]) => {
-                const shortLevel = level.replace("ชั้นมัธยมศึกษาปีที่ ", "ม.");
-                summaryHTML += `
-                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center justify-center hover:bg-slate-50 transition cursor-default">
-                        <span class="text-slate-500 mb-1 font-medium">${shortLevel}</span>
-                        <span class="text-3xl font-bold text-slate-800">${count} <span class="text-lg text-slate-400 font-normal">คน</span></span>
-                    </div>
-                `;
+                summaryHTML += `<div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center justify-center">
+                    <span class="text-slate-500 text-sm mb-1">${level.replace("ชั้นมัธยมศึกษาปีที่ ","ม.")}</span>
+                    <span class="text-2xl font-bold text-slate-800">${count}</span>
+                </div>`;
             });
             document.getElementById('admin-stats-summary').innerHTML = summaryHTML;
-
-            // Shirt Progress Bars
-            // เรียงลำดับจากคะแนนมากไปน้อย
-            const sortedShirts = [...SHIRTS].sort((a, b) => (stats.shirts[b.id] || 0) - (stats.shirts[a.id] || 0));
-
-            const shirtsHTML = sortedShirts.map((shirt, index) => {
+            
+            const sortedShirts = [...SHIRTS].sort((a, b) => stats.shirts[b.id] - stats.shirts[a.id]);
+            document.getElementById('admin-shirts-summary').innerHTML = sortedShirts.map((shirt, idx) => {
                 const votes = stats.shirts[shirt.id] || 0;
                 const percent = totalVotes === 0 ? 0 : Math.round((votes / totalVotes) * 100);
-                const isWinner = index === 0 && votes > 0; // ทำไฮไลต์ให้อันดับ 1
-
                 return `
-                    <div class="flex items-center gap-4 md:gap-6 p-4 rounded-2xl ${isWinner ? 'bg-indigo-50/50 border border-indigo-100' : ''}">
-                        <div class="w-20 h-20 md:w-24 md:h-24 bg-white rounded-xl flex items-center justify-center shrink-0 border border-slate-200 p-2 shadow-sm relative">
-                            ${isWinner ? '<div class="absolute -top-3 -left-3 bg-yellow-400 text-white w-8 h-8 rounded-full flex items-center justify-center shadow-md font-bold text-lg">1</div>' : ''}
-                            <img src="${shirt.img}" alt="${shirt.name}" class="max-h-full max-w-full object-contain" />
+                    <div class="flex items-center gap-6 p-4 rounded-2xl ${idx === 0 ? 'bg-indigo-50/50' : ''}">
+                        <div class="w-20 h-20 bg-white rounded-xl border border-slate-200 p-2 shrink-0">
+                            <img src="${shirt.img}" class="h-full w-full object-contain" />
                         </div>
                         <div class="flex-1">
-                            <div class="flex flex-col md:flex-row justify-between mb-2">
-                                <span class="font-semibold text-lg text-slate-700">${shirt.name}</span>
-                                <span class="font-bold text-slate-800 text-lg">${votes} คะแนน <span class="text-slate-400 text-sm font-normal ml-1">(${percent}%)</span></span>
+                            <div class="flex justify-between mb-2">
+                                <span class="font-semibold">${shirt.name}</span>
+                                <span class="font-bold">${votes} คะแนน (${percent}%)</span>
                             </div>
-                            <div class="w-full bg-slate-100 rounded-full h-4 overflow-hidden shadow-inner">
-                                <div class="${isWinner ? 'bg-indigo-600' : 'bg-slate-400'} h-4 rounded-full transition-all duration-1000 ease-out" style="width: ${percent}%"></div>
+                            <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
+                                <div class="bg-indigo-600 h-full transition-all duration-1000" style="width:${percent}%"></div>
                             </div>
                         </div>
                     </div>
                 `;
             }).join('');
-            document.getElementById('admin-shirts-summary').innerHTML = shirtsHTML;
         }
     </script>
 </body>
