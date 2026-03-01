@@ -55,6 +55,22 @@
         .progress-bar-fill {
             transition: width 1s ease-in-out;
         }
+        .timer-unit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .timer-val {
+            font-size: 1.25rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+        .timer-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            color: #94a3b8;
+            margin-top: 2px;
+        }
     </style>
 </head>
 <body class="p-4 md:p-8 pb-20">
@@ -69,12 +85,26 @@
             </div>
         </div>
         
-        <!-- Timer Display -->
+        <!-- Timer Display (Updated to separate units) -->
         <div class="glass-card px-6 py-3 rounded-2xl flex items-center gap-4 border-indigo-100 border shadow-indigo-100">
             <i data-lucide="clock" class="text-indigo-600"></i>
-            <div>
-                <p class="text-[10px] uppercase tracking-wider text-slate-400 font-bold">ปิดรับโหวตใน (4 มี.ค. 69)</p>
-                <p id="countdown" class="text-xl font-mono font-bold text-slate-700 tracking-tighter">00:00:00:00</p>
+            <div class="flex gap-4">
+                <div class="timer-unit">
+                    <span id="days" class="timer-val">00</span>
+                    <span class="timer-label">วัน</span>
+                </div>
+                <div class="timer-unit">
+                    <span id="hours" class="timer-val">00</span>
+                    <span class="timer-label">ชม.</span>
+                </div>
+                <div class="timer-unit">
+                    <span id="minutes" class="timer-val">00</span>
+                    <span class="timer-label">นาที</span>
+                </div>
+                <div class="timer-unit">
+                    <span id="seconds" class="timer-val text-indigo-600">00</span>
+                    <span class="timer-label">วิ.</span>
+                </div>
             </div>
         </div>
     </header>
@@ -92,10 +122,10 @@
                             <i data-lucide="user-check" class="w-10 h-10 text-indigo-600"></i>
                         </div>
                         <h2 class="text-2xl font-bold mb-2">เข้าสู่ระบบเพื่อโหวต</h2>
-                        <p class="text-slate-500 mb-8 text-sm px-4">กรุณาระบุรหัสนักเรียน 5 หลัก เพื่อตรวจสอบสิทธิ์การโหวต</p>
+                        <p class="text-slate-500 mb-8 text-sm px-4">กรุณาระบุรหัสนักเรียน เพื่อตรวจสอบสิทธิ์การโหวต</p>
                         
                         <div class="relative mb-6">
-                            <input type="text" id="std_id" placeholder="รหัสนักเรียน 5 หลัก" maxlength="5"
+                            <input type="text" id="std_id" placeholder="รหัสนักเรียน" 
                                 class="w-full pl-12 pr-4 py-4 bg-white border border-slate-200 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all text-xl tracking-widest font-bold text-center">
                             <i data-lucide="fingerprint" class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
                         </div>
@@ -114,13 +144,13 @@
                     <h3 class="font-bold flex items-center gap-2 mb-4 text-slate-700"><i data-lucide="info" class="w-5 h-5 text-indigo-500"></i> กติกาการโหวต</h3>
                     <ul class="text-sm text-slate-500 space-y-3">
                         <li class="flex gap-2"><span>1.</span> <span>นักเรียน 1 คน สามารถโหวตได้เพียง 1 ครั้งเท่านั้น</span></li>
-                        <li class="flex gap-2"><span>2.</span> <span>ระบบจะตรวจสอบจากรหัสนักเรียน 5 หลักที่ระบุในฐานข้อมูล</span></li>
+                        <li class="flex gap-2"><span>2.</span> <span>ระบบจะตรวจสอบจากรหัสนักเรียนที่ระบุในฐานข้อมูล</span></li>
                         <li class="flex gap-2"><span>3.</span> <span>สามารถตรวจสอบคะแนนดิบได้ผ่านหน้า Dashboard ของ Admin</span></li>
                     </ul>
                 </div>
             </div>
 
-            <!-- Right Side: Live Statistics Overview -->
+            <!-- Right Side: Live Statistics Overview (Public Dashboard) -->
             <div class="lg:col-span-7 space-y-6">
                 <div class="glass-card p-8 rounded-3xl min-h-[400px]">
                     <div class="flex justify-between items-end mb-8">
@@ -136,12 +166,6 @@
 
                     <div id="public-stats-list" class="space-y-6">
                         <!-- Levels Stats will be injected here -->
-                        <div class="animate-pulse space-y-4">
-                            <div class="h-4 bg-slate-100 rounded w-3/4"></div>
-                            <div class="h-8 bg-slate-50 rounded w-full"></div>
-                            <div class="h-4 bg-slate-100 rounded w-3/4"></div>
-                            <div class="h-8 bg-slate-50 rounded w-full"></div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -227,7 +251,7 @@
         // --- Configuration ---
         const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz17H-98LTnFFKJ_pfObujOD-KlUp-B7M6Pvz4lIvpgH247s-6Jd8rIXmud7S5CWmTQ/exec"; // ใส่ URL ที่ได้จาก Google Apps Script Deployment
         const ADMIN_PASS = "1111100000";
-        // วันพุธที่ 4 มีนาคม 2569 เวลา 23.59 น. (พ.ศ. 2569 = ค.ศ. 2026)
+        // วันพุธที่ 4 มีนาคม 2569 เวลา 23.59 น.
         const END_DATE = new Date("March 4, 2026 23:59:59").getTime();
         
         const LEVELS_ORDER = [
@@ -258,23 +282,34 @@
             const timer = setInterval(() => {
                 const now = new Date().getTime();
                 const dist = END_DATE - now;
+                
                 if (dist < 0) {
                     clearInterval(timer);
-                    document.getElementById("countdown").innerHTML = "สิ้นสุดการโหวต";
+                    ["days", "hours", "minutes", "seconds"].forEach(id => {
+                        document.getElementById(id).innerText = "00";
+                    });
                     document.getElementById("btn-check").disabled = true;
-                    document.getElementById("btn-check").innerText = "ปิดรับโหวตแล้ว";
+                    document.getElementById("btn-check").innerText = "สิ้นสุดระยะเวลาโหวตแล้ว";
                     return;
                 }
+                
                 const d = Math.floor(dist / (1000 * 60 * 60 * 24));
                 const h = Math.floor((dist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const m = Math.floor((dist % (1000 * 60 * 60)) / (1000 * 60));
                 const s = Math.floor((dist % (1000 * 60)) / 1000);
-                document.getElementById("countdown").innerHTML = 
-                    `${d}ว ${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+                
+                document.getElementById("days").innerText = d.toString().padStart(2, '0');
+                document.getElementById("hours").innerText = h.toString().padStart(2, '0');
+                document.getElementById("minutes").innerText = m.toString().padStart(2, '0');
+                document.getElementById("seconds").innerText = s.toString().padStart(2, '0');
             }, 1000);
         }
 
         async function refreshPublicStats() {
+            if (!WEB_APP_URL) {
+                renderPublicStats({ totalVotes: 0, levels: {} });
+                return;
+            }
             try {
                 const res = await fetch(`${WEB_APP_URL}?action=getStats`);
                 const result = await res.json();
@@ -283,23 +318,24 @@
                 }
             } catch (e) {
                 console.error("Public stats error", e);
+                renderPublicStats({ totalVotes: 0, levels: {} });
             }
         }
 
         function renderPublicStats(stats) {
             const list = document.getElementById('public-stats-list');
-            document.getElementById('public-total-votes').innerText = stats.totalVotes;
+            const total = stats.totalVotes || 0;
+            document.getElementById('public-total-votes').innerText = total;
 
             list.innerHTML = LEVELS_ORDER.map(level => {
                 const count = stats.levels[level] || 0;
-                // คำนวณ % เพื่อแสดง progress bar (สมมติเต็มที่ชั้นละ 200 คน หรือคำนวณจากยอดรวม)
-                const percent = stats.totalVotes > 0 ? (count / stats.totalVotes * 100).toFixed(0) : 0;
+                const percent = total > 0 ? (count / total * 100).toFixed(0) : 0;
                 
                 return `
                     <div class="group">
                         <div class="flex justify-between items-end mb-2">
                             <span class="text-sm font-bold text-slate-600 group-hover:text-indigo-600 transition-colors">${level}</span>
-                            <span class="text-sm font-bold text-slate-400"><span class="text-slate-700">${count}</span> ราย</span>
+                            <span class="text-sm font-bold text-slate-400"><span class="text-slate-700 font-mono">${count}</span> ราย</span>
                         </div>
                         <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
                             <div class="progress-bar-fill bg-indigo-500 h-full rounded-full" style="width: ${Math.max(2, percent)}%"></div>
@@ -332,8 +368,11 @@
         }
 
         async function checkStudentId() {
-            const id = document.getElementById('std_id').value;
-            if (id.length < 5) return showToast("กรุณากรอกรหัสนักเรียน 5 หลัก");
+            const id = document.getElementById('std_id').value.trim();
+            if (!id) return showToast("กรุณากรอกรหัสนักเรียน");
+            
+            // ปรับปรุงให้รองรับรหัสตามฐานข้อมูล (เช่น 4 หลัก หรือ 5 หลัก)
+            if (id.length < 4) return showToast("รหัสนักเรียนไม่ถูกต้อง (ต้องมีอย่างน้อย 4 หลัก)");
 
             showLoading(true);
             try {
@@ -353,7 +392,7 @@
                     showToast(result.message);
                 }
             } catch (e) {
-                showToast("ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้ โปรดตรวจสอบอินเทอร์เน็ต");
+                showToast("ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้ หรือยังไม่ได้ระบุ URL Web App");
             } finally {
                 showLoading(false);
             }
@@ -370,6 +409,8 @@
                 if (result.status === "success") {
                     showToast(result.message);
                     setTimeout(() => location.reload(), 2000);
+                } else {
+                    showToast(result.message);
                 }
             } catch (e) {
                 showToast("เกิดข้อผิดพลาดในการส่งข้อมูล");
@@ -406,7 +447,6 @@
         function renderAdminDashboard(stats) {
             document.getElementById('stat-total').innerText = stats.totalVotes;
             
-            // Shirt Results
             const shirtList = document.getElementById('admin-shirt-list');
             shirtList.innerHTML = SHIRTS.map(s => {
                 const votes = stats.shirts[s.id] || 0;
@@ -424,7 +464,6 @@
                 `;
             }).join('');
 
-            // Level Stats (Ordered M.1-M.6)
             const levelList = document.getElementById('admin-level-list');
             levelList.innerHTML = LEVELS_ORDER.map(level => {
                 const count = stats.levels[level] || 0;
@@ -436,7 +475,6 @@
                 `;
             }).join('');
             
-            // Summary Cards
             const topLvlArr = Object.entries(stats.levels).sort((a,b) => b[1]-a[1]);
             if(topLvlArr.length > 0) document.querySelector('#stat-top-level h3').innerText = topLvlArr[0][0];
             
