@@ -85,7 +85,7 @@
             </div>
         </div>
         
-        <!-- Timer Display (Updated to separate units) -->
+        <!-- Timer Display -->
         <div class="glass-card px-6 py-3 rounded-2xl flex items-center gap-4 border-indigo-100 border shadow-indigo-100">
             <i data-lucide="clock" class="text-indigo-600"></i>
             <div class="flex gap-4">
@@ -125,7 +125,7 @@
                         <p class="text-slate-500 mb-8 text-sm px-4">กรุณาระบุรหัสนักเรียน เพื่อตรวจสอบสิทธิ์การโหวต</p>
                         
                         <div class="relative mb-6">
-                            <input type="text" id="std_id" placeholder="รหัสนักเรียน" 
+                            <input type="text" id="std_id" placeholder="รหัสนักเรียน (4-5 หลัก)" 
                                 class="w-full pl-12 pr-4 py-4 bg-white border border-slate-200 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all text-xl tracking-widest font-bold text-center">
                             <i data-lucide="fingerprint" class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
                         </div>
@@ -145,21 +145,21 @@
                     <ul class="text-sm text-slate-500 space-y-3">
                         <li class="flex gap-2"><span>1.</span> <span>นักเรียน 1 คน สามารถโหวตได้เพียง 1 ครั้งเท่านั้น</span></li>
                         <li class="flex gap-2"><span>2.</span> <span>ระบบจะตรวจสอบจากรหัสนักเรียนที่ระบุในฐานข้อมูล</span></li>
-                        <li class="flex gap-2"><span>3.</span> <span>สามารถตรวจสอบคะแนนดิบได้ผ่านหน้า Dashboard ของ Admin</span></li>
+                        <li class="flex gap-2"><span>3.</span> <span>รหัสผ่านเข้า Admin คือ 1111100000</span></li>
                     </ul>
                 </div>
             </div>
 
-            <!-- Right Side: Live Statistics Overview (Public Dashboard) -->
+            <!-- Right Side: Live Statistics (Public Dashboard) -->
             <div class="lg:col-span-7 space-y-6">
                 <div class="glass-card p-8 rounded-3xl min-h-[400px]">
                     <div class="flex justify-between items-end mb-8">
                         <div>
                             <h2 class="text-2xl font-bold">สถิติผู้เข้าร่วมโหวต</h2>
-                            <p class="text-slate-400 text-sm">ข้อมูลสรุปการโหวตแยกตามระดับชั้น (Real-time)</p>
+                            <p class="text-slate-400 text-sm">สรุปการโหวตรายระดับชั้น (Real-time)</p>
                         </div>
                         <div class="text-right">
-                            <span class="text-xs font-bold text-slate-400 uppercase tracking-widest block">โหวตแล้ว</span>
+                            <span class="text-xs font-bold text-slate-400 uppercase tracking-widest block">ยอดโหวตรวม</span>
                             <span id="public-total-votes" class="text-3xl font-bold text-indigo-600">0</span>
                         </div>
                     </div>
@@ -171,7 +171,7 @@
             </div>
         </div>
 
-        <!-- Voting Section (Hidden by default) -->
+        <!-- Voting Section (Hidden) -->
         <section id="vote-section" class="hidden transition-all duration-700 opacity-0 transform translate-y-10">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 bg-white/50 p-6 rounded-3xl border border-white">
                 <div class="flex items-center gap-4">
@@ -180,10 +180,10 @@
                     </div>
                     <div>
                         <h2 class="text-2xl font-bold">เลือกแบบเสื้อที่คุณต้องการ</h2>
-                        <p id="user-display" class="text-indigo-600 font-medium"></p>
+                        <p id="user-display" class="text-indigo-600 font-medium italic"></p>
                     </div>
                 </div>
-                <button onclick="submitVote()" id="btn-submit-vote" class="w-full md:w-auto bg-indigo-600 hover:bg-indigo-700 text-white px-10 py-4 rounded-2xl font-bold shadow-xl shadow-indigo-200 transition-all scale-100 active:scale-95 disabled:opacity-50">
+                <button onclick="submitVote()" id="btn-submit-vote" class="w-full md:w-auto bg-indigo-600 hover:bg-indigo-700 text-white px-10 py-4 rounded-2xl font-bold shadow-xl shadow-indigo-200 transition-all scale-100 active:scale-95">
                     ยืนยันการโหวต
                 </button>
             </div>
@@ -193,7 +193,7 @@
             </div>
         </section>
 
-        <!-- Admin Dashboard (Hidden by default) -->
+        <!-- Admin Dashboard (Hidden) -->
         <section id="admin-section" class="hidden max-w-5xl mx-auto space-y-6">
             <div class="flex justify-between items-center bg-white p-6 rounded-3xl shadow-sm">
                 <div class="flex items-center gap-3">
@@ -212,26 +212,26 @@
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div class="glass-card p-6 rounded-3xl">
-                    <p class="text-slate-400 text-xs font-bold uppercase tracking-widest">จำนวนโหวตทั้งหมด</p>
+                    <p class="text-slate-400 text-xs font-bold uppercase tracking-widest">โหวตแล้ว</p>
                     <h3 id="stat-total" class="text-4xl font-bold mt-2 text-indigo-600">0</h3>
                 </div>
                 <div id="stat-top-level" class="glass-card p-6 rounded-3xl border-l-4 border-indigo-500">
-                    <p class="text-slate-400 text-xs font-bold uppercase tracking-widest">ระดับชั้นที่โหวตสูงสุด</p>
+                    <p class="text-slate-400 text-xs font-bold uppercase tracking-widest">ชั้นที่กระตือรือร้นที่สุด</p>
                     <h3 class="text-xl font-bold mt-2">-</h3>
                 </div>
                 <div id="stat-winner" class="glass-card p-6 rounded-3xl border-l-4 border-emerald-500">
-                    <p class="text-slate-400 text-xs font-bold uppercase tracking-widest">แบบที่คะแนนนำ</p>
+                    <p class="text-slate-400 text-xs font-bold uppercase tracking-widest">แบบที่นิยมที่สุด</p>
                     <h3 class="text-xl font-bold mt-2">-</h3>
                 </div>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div class="glass-card p-8 rounded-3xl">
-                    <h4 class="font-bold mb-6 flex items-center gap-2"><i data-lucide="bar-chart" class="text-indigo-500"></i> สรุปคะแนนเสื้อแยกตามรหัสแบบ</h4>
+                    <h4 class="font-bold mb-6 flex items-center gap-2"><i data-lucide="bar-chart" class="text-indigo-500"></i> ผลคะแนนแต่ละแบบ</h4>
                     <div id="admin-shirt-list" class="space-y-4"></div>
                 </div>
                 <div class="glass-card p-8 rounded-3xl">
-                    <h4 class="font-bold mb-6 flex items-center gap-2"><i data-lucide="users" class="text-indigo-500"></i> จำนวนผู้โหวตแต่ละชั้น (ม.1 - ม.6)</h4>
+                    <h4 class="font-bold mb-6 flex items-center gap-2"><i data-lucide="users" class="text-indigo-500"></i> สถิติรายชั้น</h4>
                     <div id="admin-level-list" class="space-y-4"></div>
                 </div>
             </div>
@@ -243,15 +243,17 @@
         <div class="bg-white p-10 rounded-[2.5rem] shadow-2xl flex flex-col items-center max-w-[280px] w-full">
             <div class="loader w-14 h-14 border-4 border-slate-100 rounded-full mb-6"></div>
             <p class="text-slate-800 font-bold text-lg">กำลังประมวลผล</p>
-            <p class="text-slate-400 text-xs mt-2 text-center">โปรดรอสักครู่ ระบบกำลังสื่อสารกับฐานข้อมูล Google Sheets</p>
+            <p class="text-slate-400 text-xs mt-2 text-center">ระบบกำลังคุยกับ Google Sheets...</p>
         </div>
     </div>
 
     <script>
-        // --- Configuration ---
-        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz17H-98LTnFFKJ_pfObujOD-KlUp-B7M6Pvz4lIvpgH247s-6Jd8rIXmud7S5CWmTQ/exec"; // ใส่ URL ที่ได้จาก Google Apps Script Deployment
+        /**
+         * สำคัญ: กรุณานำ URL ที่ได้จาก Deploy Apps Script มาใส่ในช่องนี้
+         */
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz17H-98LTnFFKJ_pfObujOD-KlUp-B7M6Pvz4lIvpgH247s-6Jd8rIXmud7S5CWmTQ/exec"; 
+        
         const ADMIN_PASS = "1111100000";
-        // วันพุธที่ 4 มีนาคม 2569 เวลา 23.59 น.
         const END_DATE = new Date("March 4, 2026 23:59:59").getTime();
         
         const LEVELS_ORDER = [
@@ -270,29 +272,30 @@
         let currentUser = null;
         let selectedShirtId = null;
 
-        // --- Initialization ---
         window.onload = () => {
             lucide.createIcons();
             renderShirts();
             startCountdown();
             refreshPublicStats();
+            
+            // ตรวจสอบการลืมใส่ URL
+            if (!WEB_APP_URL) {
+                console.warn("⚠️ โปรดระบุ WEB_APP_URL ในส่วน Script เพื่อให้ระบบทำงานได้จริง");
+                showToast("ระบบยังไม่ได้เชื่อมต่อฐานข้อมูล (ลืมใส่ URL)");
+            }
         };
 
         function startCountdown() {
             const timer = setInterval(() => {
                 const now = new Date().getTime();
                 const dist = END_DATE - now;
-                
                 if (dist < 0) {
                     clearInterval(timer);
-                    ["days", "hours", "minutes", "seconds"].forEach(id => {
-                        document.getElementById(id).innerText = "00";
-                    });
+                    ["days", "hours", "minutes", "seconds"].forEach(id => document.getElementById(id).innerText = "00");
                     document.getElementById("btn-check").disabled = true;
-                    document.getElementById("btn-check").innerText = "สิ้นสุดระยะเวลาโหวตแล้ว";
+                    document.getElementById("btn-check").innerText = "ปิดการรับโหวตแล้ว";
                     return;
                 }
-                
                 const d = Math.floor(dist / (1000 * 60 * 60 * 24));
                 const h = Math.floor((dist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const m = Math.floor((dist % (1000 * 60 * 60)) / (1000 * 60));
@@ -306,10 +309,7 @@
         }
 
         async function refreshPublicStats() {
-            if (!WEB_APP_URL) {
-                renderPublicStats({ totalVotes: 0, levels: {} });
-                return;
-            }
+            if (!WEB_APP_URL) return renderPublicStats({ totalVotes: 0, levels: {} });
             try {
                 const res = await fetch(`${WEB_APP_URL}?action=getStats`);
                 const result = await res.json();
@@ -317,7 +317,6 @@
                     renderPublicStats(result.data);
                 }
             } catch (e) {
-                console.error("Public stats error", e);
                 renderPublicStats({ totalVotes: 0, levels: {} });
             }
         }
@@ -330,15 +329,14 @@
             list.innerHTML = LEVELS_ORDER.map(level => {
                 const count = stats.levels[level] || 0;
                 const percent = total > 0 ? (count / total * 100).toFixed(0) : 0;
-                
                 return `
                     <div class="group">
                         <div class="flex justify-between items-end mb-2">
-                            <span class="text-sm font-bold text-slate-600 group-hover:text-indigo-600 transition-colors">${level}</span>
-                            <span class="text-sm font-bold text-slate-400"><span class="text-slate-700 font-mono">${count}</span> ราย</span>
+                            <span class="text-sm font-bold text-slate-600">${level}</span>
+                            <span class="text-sm font-bold text-slate-400"><span class="text-indigo-600 font-mono">${count}</span> โหวต</span>
                         </div>
-                        <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
-                            <div class="progress-bar-fill bg-indigo-500 h-full rounded-full" style="width: ${Math.max(2, percent)}%"></div>
+                        <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                            <div class="progress-bar-fill bg-indigo-500 h-full rounded-full" style="width: ${Math.max(1, percent)}%"></div>
                         </div>
                     </div>
                 `;
@@ -350,12 +348,12 @@
             grid.innerHTML = SHIRTS.map(shirt => `
                 <div onclick="selectShirt('${shirt.id}')" id="shirt-${shirt.id}" 
                     class="vote-card glass-card p-4 rounded-3xl cursor-pointer border-2 border-transparent">
-                    <div class="aspect-square bg-white rounded-2xl p-4 mb-4 flex items-center justify-center overflow-hidden">
-                        <img src="${shirt.img}" class="w-full h-full object-contain hover:scale-110 transition-transform duration-500">
+                    <div class="aspect-square bg-white rounded-2xl p-4 mb-4 flex items-center justify-center">
+                        <img src="${shirt.img}" class="w-full h-full object-contain">
                     </div>
                     <div class="text-center">
                         <h3 class="font-bold text-slate-700">${shirt.name}</h3>
-                        <p class="text-xs text-slate-400 mt-1">คลิกเพื่อเลือก</p>
+                        <p class="text-[10px] text-slate-400 mt-1 uppercase tracking-wider">Tap to Select</p>
                     </div>
                 </div>
             `).join('');
@@ -370,9 +368,7 @@
         async function checkStudentId() {
             const id = document.getElementById('std_id').value.trim();
             if (!id) return showToast("กรุณากรอกรหัสนักเรียน");
-            
-            // ปรับปรุงให้รองรับรหัสตามฐานข้อมูล (เช่น 4 หลัก หรือ 5 หลัก)
-            if (id.length < 4) return showToast("รหัสนักเรียนไม่ถูกต้อง (ต้องมีอย่างน้อย 4 หลัก)");
+            if (!WEB_APP_URL) return showToast("ระบบไม่ได้เชื่อมต่อ API (WEB_APP_URL)");
 
             showLoading(true);
             try {
@@ -384,31 +380,32 @@
                     document.getElementById('landing-container').classList.add('hidden');
                     const vSec = document.getElementById('vote-section');
                     vSec.classList.remove('hidden');
-                    setTimeout(() => {
-                        vSec.classList.remove('opacity-0', 'translate-y-10');
-                    }, 100);
-                    document.getElementById('user-display').innerText = `${currentUser.name} (${currentUser.level})`;
+                    setTimeout(() => vSec.classList.remove('opacity-0', 'translate-y-10'), 100);
+                    
+                    // ดึงชื่อจากโครงสร้าง code.gs: title + name + surname
+                    const fullName = `${currentUser.title}${currentUser.name} ${currentUser.surname}`;
+                    document.getElementById('user-display').innerText = `${fullName} (${currentUser.level})`;
                 } else {
                     showToast(result.message);
                 }
             } catch (e) {
-                showToast("ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้ หรือยังไม่ได้ระบุ URL Web App");
+                showToast("ไม่สามารถเชื่อมต่อฐานข้อมูลได้");
             } finally {
                 showLoading(false);
             }
         }
 
         async function submitVote() {
-            if (!selectedShirtId) return showToast("โปรดคลิกเลือกแบบเสื้อที่ต้องการก่อน");
-            if (!confirm(`ยืนยันการโหวตแบบที่ ${selectedShirtId}?\nการโหวตนี้ไม่สามารถเปลี่ยนแปลงได้ในภายหลัง`)) return;
+            if (!selectedShirtId) return showToast("โปรดเลือกแบบเสื้อก่อนยืนยัน");
+            if (!confirm(`คุณต้องการเลือก แบบที่ ${selectedShirtId} ใช่หรือไม่?`)) return;
 
             showLoading(true);
             try {
                 const res = await fetch(`${WEB_APP_URL}?action=vote&row=${currentUser.row}&shirtId=${selectedShirtId}`);
                 const result = await res.json();
                 if (result.status === "success") {
-                    showToast(result.message);
-                    setTimeout(() => location.reload(), 2000);
+                    showToast("บันทึกการโหวตสำเร็จ! ขอบคุณครับ");
+                    setTimeout(() => location.reload(), 2500);
                 } else {
                     showToast(result.message);
                 }
@@ -419,15 +416,14 @@
             }
         }
 
-        async function toggleAdmin() {
-            const pass = prompt("เข้าถึงส่วนผู้ดูแลระบบ\nกรุณาใส่รหัสผ่าน:");
-            if (pass === null) return;
-            if (pass !== ADMIN_PASS) return showToast("รหัสผ่านไม่ถูกต้อง");
-
-            refreshStats();
+        function toggleAdmin() {
+            const pass = prompt("ส่วนสำหรับผู้ดูแลระบบ:");
+            if (pass === ADMIN_PASS) refreshStats();
+            else if (pass !== null) showToast("รหัสผ่านไม่ถูกต้อง");
         }
 
         async function refreshStats() {
+            if (!WEB_APP_URL) return showToast("ยังไม่ได้ใส่ URL ในโค้ด");
             showLoading(true);
             try {
                 const res = await fetch(`${WEB_APP_URL}?action=getStats`);
@@ -438,7 +434,7 @@
                     renderAdminDashboard(result.data);
                 }
             } catch (e) {
-                showToast("ไม่สามารถโหลดสถิติได้");
+                showToast("โหลดสถิติไม่สำเร็จ");
             } finally {
                 showLoading(false);
             }
@@ -447,39 +443,42 @@
         function renderAdminDashboard(stats) {
             document.getElementById('stat-total').innerText = stats.totalVotes;
             
+            // ผลโหวตเสื้อ
             const shirtList = document.getElementById('admin-shirt-list');
             shirtList.innerHTML = SHIRTS.map(s => {
-                const votes = stats.shirts[s.id] || 0;
-                const percent = stats.totalVotes > 0 ? (votes / stats.totalVotes * 100).toFixed(1) : 0;
+                const count = stats.shirts[s.id] || 0;
+                const perc = stats.totalVotes > 0 ? (count / stats.totalVotes * 100).toFixed(1) : 0;
                 return `
-                    <div class="bg-slate-50 p-4 rounded-2xl">
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
                         <div class="flex justify-between text-sm mb-2">
-                            <span class="font-bold">${s.name}</span>
-                            <span class="text-indigo-600 font-bold">${votes} โหวต</span>
+                            <span class="font-bold text-slate-700">${s.name}</span>
+                            <span class="text-indigo-600 font-bold">${count} โหวต (${perc}%)</span>
                         </div>
-                        <div class="w-full bg-white h-2 rounded-full overflow-hidden shadow-inner">
-                            <div class="bg-indigo-500 h-full rounded-full" style="width: ${percent}%"></div>
+                        <div class="w-full bg-white h-2 rounded-full overflow-hidden">
+                            <div class="bg-indigo-500 h-full rounded-full" style="width: ${perc}%"></div>
                         </div>
                     </div>
                 `;
             }).join('');
 
+            // สถิติรายชั้น
             const levelList = document.getElementById('admin-level-list');
             levelList.innerHTML = LEVELS_ORDER.map(level => {
                 const count = stats.levels[level] || 0;
                 return `
-                    <div class="flex justify-between items-center p-3 border-b border-slate-100 last:border-0">
-                        <span class="text-sm font-medium text-slate-600">${level}</span>
-                        <span class="bg-indigo-600 text-white px-3 py-1 rounded-lg text-xs font-bold">${count} คน</span>
+                    <div class="flex justify-between items-center p-3 border-b border-slate-50 last:border-0">
+                        <span class="text-sm text-slate-600 font-medium">${level}</span>
+                        <span class="bg-slate-200 text-slate-700 px-3 py-1 rounded-lg text-xs font-bold">${count} คน</span>
                     </div>
                 `;
             }).join('');
             
-            const topLvlArr = Object.entries(stats.levels).sort((a,b) => b[1]-a[1]);
-            if(topLvlArr.length > 0) document.querySelector('#stat-top-level h3').innerText = topLvlArr[0][0];
+            // สรุปผู้ชนะและชั้นยอดนิยม
+            const topLvl = Object.entries(stats.levels).sort((a,b) => b[1]-a[1]);
+            if(topLvl.length > 0 && topLvl[0][1] > 0) document.querySelector('#stat-top-level h3').innerText = topLvl[0][0];
             
-            const topShirtArr = Object.entries(stats.shirts).sort((a,b) => b[1]-a[1]);
-            if(topShirtArr.length > 0) document.querySelector('#stat-winner h3').innerText = "แบบที่ " + topShirtArr[0][0];
+            const topShirt = Object.entries(stats.shirts).sort((a,b) => b[1]-a[1]);
+            if(topShirt.length > 0 && topShirt[0][1] > 0) document.querySelector('#stat-winner h3').innerText = "แบบที่ " + topShirt[0][0];
             
             lucide.createIcons();
         }
@@ -489,16 +488,19 @@
         }
 
         function showToast(msg) {
+            const oldToast = document.querySelector('.custom-toast');
+            if(oldToast) oldToast.remove();
+            
             const toast = document.createElement('div');
-            toast.className = "fixed bottom-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white px-8 py-4 rounded-2xl shadow-2xl z-[200] transition-all transform translate-y-20 flex items-center gap-3";
-            toast.innerHTML = `<i data-lucide="bell" class="w-5 h-5 text-indigo-400"></i> <span class="font-medium">${msg}</span>`;
+            toast.className = "custom-toast fixed bottom-8 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-8 py-4 rounded-2xl shadow-2xl z-[200] transition-all transform translate-y-20 flex items-center gap-3 border border-slate-700";
+            toast.innerHTML = `<i data-lucide="info" class="w-5 h-5 text-indigo-400"></i> <span class="font-medium text-sm">${msg}</span>`;
             document.body.appendChild(toast);
             lucide.createIcons();
             setTimeout(() => toast.classList.remove('translate-y-20'), 100);
             setTimeout(() => {
                 toast.classList.add('translate-y-20');
                 setTimeout(() => toast.remove(), 500);
-            }, 3500);
+            }, 3000);
         }
     </script>
 </body>
