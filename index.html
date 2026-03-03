@@ -126,7 +126,7 @@
                         <i data-lucide="user-check" class="w-10 h-10 text-indigo-600"></i>
                     </div>
                     <h2 class="text-2xl font-bold mb-2">ระบุรหัสนักเรียน</h2>
-                    <p class="text-slate-500 mb-8 text-sm">กรุณากรอกรหัสนักเรียน 4 หลักเพื่อเริ่มโหวต</p>
+                    <p class="text-slate-500 mb-8 text-sm">กรุณากรอกรหัสนักเรียน 4-5 หลักเพื่อเริ่มโหวต</p>
                     <div class="relative mb-6">
                         <input type="text" id="std_id" placeholder="Ex. 1234" 
                             class="w-full pl-12 pr-4 py-4 bg-white border border-slate-200 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all text-2xl tracking-[0.2em] font-bold text-center">
@@ -205,12 +205,10 @@
                     <p class="text-slate-400 text-xs font-bold uppercase tracking-widest">โหวตรวม</p>
                     <h3 id="stat-total" class="text-4xl font-bold mt-2 text-indigo-600">0</h3>
                 </div>
-                <!-- แก้ไข: การแสดงผลชั้นที่โหวตสูงสุด -->
                 <div id="stat-top-level-card" class="glass-card p-6 rounded-3xl border-l-4 border-indigo-500">
                     <p class="text-slate-400 text-xs font-bold uppercase tracking-widest">ชั้นที่โหวตสูงสุด</p>
                     <h3 id="stat-top-level" class="text-xl font-bold mt-2 text-slate-700">กำลังประมวลผล...</h3>
                 </div>
-                <!-- แก้ไข: การแสดงผลผู้นำโหวต -->
                 <div id="stat-winner-card" class="glass-card p-6 rounded-3xl border-l-4 border-emerald-500">
                     <p class="text-slate-400 text-xs font-bold uppercase tracking-widest">แบบเสื้อที่นำอยู่</p>
                     <h3 id="stat-winner" class="text-xl font-bold mt-2 text-emerald-600">กำลังประมวลผล...</h3>
@@ -220,7 +218,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div class="glass-card p-8 rounded-3xl">
                     <h4 class="font-bold mb-6 flex items-center gap-2">
-                        <i data-lucide="bar-chart-3" class="w-5 h-5 text-indigo-500"></i> สรุปคะแนนตามแบบ
+                        <i data-lucide="bar-chart-3" class="w-5 h-5 text-indigo-500"></i> สรุปคะแนนตามแบบ (เรียงตามคะแนน)
                     </h4>
                     <div id="admin-shirt-list" class="space-y-4"></div>
                 </div>
@@ -244,7 +242,6 @@
 
     <script>
         const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz17H-98LTnFFKJ_pfObujOD-KlUp-B7M6Pvz4lIvpgH247s-6Jd8rIXmud7S5CWmTQ/exec"; 
-        
         const ADMIN_PASS = "1111100000";
         const END_DATE = new Date("March 4, 2026 23:59:59").getTime();
         const SHIRTS = [
@@ -344,7 +341,6 @@
         async function checkStudentId() {
             const id = document.getElementById('std_id').value.trim();
             if (!id) return showToast("กรุณากรอกรหัสนักเรียน");
-            
             showLoading(true);
             try {
                 const res = await fetch(`${WEB_APP_URL}?action=checkId&id=${id}`);
@@ -360,9 +356,7 @@
                     const surname = currentUser.surname || "";
                     const level = currentUser.level || "";
                     document.getElementById('user-display').innerText = `${title}${name} ${surname} (${level})`;
-                } else {
-                    showToast(result.message);
-                }
+                } else { showToast(result.message); }
             } catch (e) { showToast("Error connecting to server"); }
             finally { showLoading(false); }
         }
@@ -405,7 +399,7 @@
         function renderAdminDashboard(stats) {
             document.getElementById('stat-total').innerText = stats.totalVotes;
             
-            // --- แก้ไขจุดที่ 1: คำนวณหาชั้นที่โหวตสูงสุด ---
+            // หาชั้นที่โหวตสูงสุด
             const levelEntries = Object.entries(stats.levels);
             let topLevel = "ยังไม่มีข้อมูล";
             if (levelEntries.length > 0) {
@@ -414,7 +408,7 @@
             }
             document.getElementById('stat-top-level').innerText = topLevel;
 
-            // --- แก้ไขจุดที่ 2: คำนวณหาแบบเสื้อที่นำอยู่ ---
+            // หาผู้นำโหวต
             const shirtEntries = Object.entries(stats.shirts);
             let winningShirt = "ยังไม่มีข้อมูล";
             if (shirtEntries.length > 0) {
@@ -426,19 +420,36 @@
             }
             document.getElementById('stat-winner').innerText = winningShirt;
 
-            // ผลคะแนนตามแบบ
+            // แก้ไข: สรุปคะแนนตามแบบ + แสดงรูปเสื้อ + เรียงลำดับคะแนน
             const shirtList = document.getElementById('admin-shirt-list');
-            shirtList.innerHTML = SHIRTS.map(s => {
-                const c = stats.shirts[s.id] || 0;
-                const p = stats.totalVotes > 0 ? (c / stats.totalVotes * 100).toFixed(1) : 0;
+            
+            // นำข้อมูล SHIRTS มาผสมกับคะแนนโหวตจริงและเรียงลำดับ
+            const shirtsWithVotes = SHIRTS.map(s => ({
+                ...s,
+                votes: stats.shirts[s.id] || 0
+            })).sort((a, b) => b.votes - a.votes);
+
+            shirtList.innerHTML = shirtsWithVotes.map((s, idx) => {
+                const p = stats.totalVotes > 0 ? (s.votes / stats.totalVotes * 100).toFixed(1) : 0;
+                // เน้นสีพื้นหลังให้แบบที่ 1 (คนโหวตมากสุด)
+                const isLeader = idx === 0 && s.votes > 0;
+                
                 return `
-                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                        <div class="flex justify-between text-sm mb-2">
-                            <span class="font-bold text-slate-700">${s.name}</span>
-                            <span class="text-indigo-600 font-bold">${c} โหวต (${p}%)</span>
+                    <div class="flex items-center gap-4 p-4 rounded-2xl border ${isLeader ? 'bg-indigo-50 border-indigo-200' : 'bg-white border-slate-100 shadow-sm'}">
+                        <div class="w-16 h-16 bg-white rounded-xl border border-slate-100 p-1 shrink-0 overflow-hidden flex items-center justify-center">
+                            <img src="${s.img}" class="max-w-full max-h-full object-contain">
                         </div>
-                        <div class="w-full bg-white h-2 rounded-full overflow-hidden">
-                            <div class="bg-indigo-500 h-full transition-all duration-1000" style="width: ${p}%"></div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-end mb-2">
+                                <div>
+                                    <span class="text-xs font-bold text-slate-400 uppercase tracking-tighter">${idx + 1}. ${s.name}</span>
+                                    <div class="font-bold text-slate-700">${s.votes} <span class="text-xs font-normal text-slate-400">โหวต</span></div>
+                                </div>
+                                <span class="text-indigo-600 font-bold text-sm">${p}%</span>
+                            </div>
+                            <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                                <div class="bg-indigo-500 h-full transition-all duration-1000" style="width: ${p}%"></div>
+                            </div>
                         </div>
                     </div>`;
             }).join('');
@@ -456,7 +467,6 @@
         }
 
         function showLoading(s) { document.getElementById('loading-overlay').classList.toggle('hidden', !s); }
-        
         function showToast(m) {
             const t = document.createElement('div');
             t.className = "fixed bottom-10 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-8 py-4 rounded-2xl z-[200] animate-bounce shadow-2xl";
